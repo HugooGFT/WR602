@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -41,6 +43,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?\DateTimeImmutable $subscription_end_at = null;
+
+    #[ORM\OneToMany(targetEntity: Pdf::class, mappedBy: 'user')]
+    private Collection $pdf;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Subscription $subscription = null;
+
+    public function __construct()
+    {
+        $this->pdf = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -171,4 +184,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Pdf>
+     */
+    public function getPdf(): Collection
+    {
+        return $this->pdf;
+    }
+
+    public function addPdf(Pdf $pdf): static
+    {
+        if (!$this->pdf->contains($pdf)) {
+            $this->pdf->add($pdf);
+            $pdf->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePdf(Pdf $pdf): static
+    {
+        if ($this->pdf->removeElement($pdf)) {
+            // set the owning side to null (unless already changed)
+            if ($pdf->getUser() === $this) {
+                $pdf->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSubscription(): ?Subscription
+    {
+        return $this->subscription;
+    }
+
+    public function setSubscription(?Subscription $subscription): static
+    {
+        $this->subscription = $subscription;
+
+        return $this;
+    }
+
 }
