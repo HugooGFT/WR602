@@ -20,7 +20,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column]
+    /**
+     * @var array<string>
+     */
+    #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     /**
@@ -36,13 +39,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastname = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updated_at = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $subscription_end_at = null;
+    private ?\DateTimeImmutable $subscriptionEndAt = null;
 
     #[ORM\OneToMany(targetEntity: Pdf::class, mappedBy: 'user')]
     private Collection $pdf;
@@ -94,7 +97,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): static
+    /**
+     * @param array<string> $roles
+     * return $this
+     */
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -151,36 +158,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
     public function getSubscriptionEndAt(): ?\DateTimeImmutable
     {
-        return $this->subscription_end_at;
+        return $this->subscriptionEndAt;
     }
 
-    public function setSubscriptionEndAt(\DateTimeImmutable $subscription_end_at): static
+    public function setSubscriptionEndAt(\DateTimeImmutable $subscriptionEndAt): static
     {
-        $this->subscription_end_at = $subscription_end_at;
+        $this->subscriptionEndAt = $subscriptionEndAt;
 
         return $this;
     }
@@ -226,5 +233,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
 }
