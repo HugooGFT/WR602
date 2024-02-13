@@ -23,7 +23,6 @@ class PdfFormController extends AbstractController
 
         $pdf = new Pdf();
         $pdf->setUrl('Url');
-        $pdf->getCreatedAt();
 
         $form = $this->createForm(UrlFormType::class, $pdf);
 
