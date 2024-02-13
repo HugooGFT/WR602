@@ -1,7 +1,7 @@
 <?php
 
 // tests/Entity/UserTest.php
-namespace tests;
+namespace App\Tests\Entity;
 
 use App\Entity\Pdf;
 use App\Entity\Subscription;
