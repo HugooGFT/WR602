@@ -2,7 +2,7 @@
 
 namespace App\Form\Type;
 
-use App\Entity\Url;
+use App\Entity\Pdf;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -24,7 +24,7 @@ class UrlFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Url::class,
+            'data_class' => Pdf::class,
         ]);
     }
 }

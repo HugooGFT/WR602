@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Pdf;
 use App\Entity\Url;
 use App\Form\Type\UrlFormType;
 use App\Service\Gotenberg;
@@ -13,28 +14,28 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 class PdfFormController extends AbstractController
 {
     #[Route('/pdf/form', name: 'app_pdf_form')]
     public function new(Gotenberg $gotenberg, Request $request, EntityManagerInterface $entityManager): Response
     {
 
-        $url = new Url();
-        $url->setUrl('Url');
 
-        $form = $this->createForm(UrlFormType::class,$url);
+        $pdf = new Pdf();
+        $pdf->setUrl('Url');
+        $pdf->getCreatedAt();
+
+        $form = $this->createForm(UrlFormType::class, $pdf);
 
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-
-            $url = $form->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $pdf = $form->getData();
             //utilisation du service Gotenberg, en lui transmettant l'url afin de récupérer l'index.html
-            $convertion = $gotenberg->fetchGitHubInformation($url->getUrl());
+            $convertion = $gotenberg->fetchGitHubInformation($pdf->getUrl());
 
-            $entityManager->persist($url);
+            $entityManager->persist($pdf);
 
             // actually executes the queries (i.e. the INSERT query)
             $entityManager->flush();
@@ -42,11 +43,9 @@ class PdfFormController extends AbstractController
             return new Response($convertion, 200, [
                 'Content-Type' => 'application/pdf',
             ]);
-
-
         }
         return $this->render('pdf_form/index.html.twig', [
             'form' => $form->createView()
         ]);
-   }
+    }
 }
