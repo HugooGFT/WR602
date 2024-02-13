@@ -10,7 +10,7 @@ class Gotenberg
     {
     }
 
-    public function fetchGitHubInformation($url): string
+    public function fetchGitHubInformation(string $url): string
     {
 
         $response = $this->client->request('POST', 'http://localhost:3000/forms/chromium/convert/url', [
