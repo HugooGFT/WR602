@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Pdf;
 use App\Entity\Url;
 use App\Form\Type\UrlFormType;
+use App\Repository\UserRepository;
 use App\Service\Gotenberg;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,12 +18,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class PdfFormController extends AbstractController
 {
     #[Route('/pdf/form', name: 'app_pdf_form')]
-    public function new(Gotenberg $gotenberg, Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Gotenberg $gotenberg, Request $request, EntityManagerInterface $entityManager, UserRepository $ur): Response
     {
+        $userids = $ur->findAll();
+        foreach ($userids as $userid) {
+            $userid->getId();
+        }
 
 
         $pdf = new Pdf();
         $pdf->setUrl('Url');
+        $pdf->setUser($userid);
+
 
         $form = $this->createForm(UrlFormType::class, $pdf);
 
@@ -33,6 +40,8 @@ class PdfFormController extends AbstractController
             $pdf = $form->getData();
             //utilisation du service Gotenberg, en lui transmettant l'url afin de récupérer l'index.html
             $convertion = $gotenberg->fetchGitHubInformation($pdf->getUrl());
+
+
 
             $entityManager->persist($pdf);
 
