@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Subscription;
 use App\Entity\User;
 use App\Form\Type\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,7 +42,8 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            $user->setRoles(['ROLE_FREE']);
+            $subscription = $em->getRepository(Subscription::class)->find(2);
+            $user->setSubscription($subscription);
             $em->persist($user);
             $em->flush();
 
