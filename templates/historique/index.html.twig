@@ -3,5 +3,13 @@
 {% block title %}Hello HistoriqueController!{% endblock %}
 
 {% block body %}
-
+    {% set test = -1 %}
+    <ul>
+        {% for pdfs in pdf %}
+            <li>
+                {% set test =(test)+1 %}
+                {{ pdfs }} <a href="{{ path('app_historique_show',{'id':test}) }}">Visualiser</a>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

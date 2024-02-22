@@ -38,6 +38,7 @@ class PdfFormController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $pdf = $form->getData();
+
             //utilisation du service Gotenberg, en lui transmettant l'url afin de récupérer l'index.html
             $convertion = $gotenberg->fetchGitHubInformation($pdf->getUrl());
 
