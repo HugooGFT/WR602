@@ -33,7 +33,7 @@ class HistoriqueController extends AbstractController
     }
 
     #[Route('/historique/show/{id}', name: 'app_historique_show')]
-    public function show(Gotenberg $gotenberg, PdfRepository $pdfRepository, UserRepository $userRepository, $id):Response
+    public function show(Gotenberg $gotenberg, PdfRepository $pdfRepository, UserRepository $userRepository, int $id):Response
     {
         $pdfs = $pdfRepository->findAll();
         $userRepository = $this->getUser()->getUserIdentifier();
