@@ -1,4 +1,22 @@
 body {
-    background-color: mediumpurple;
+    background-color: lightsteelblue;
+}
 
+.template{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.home{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5%;
+}
+
+.img{
+    height: 10%;
+    width: 10%;
+    margin: 5%;
 }
