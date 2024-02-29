@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Pdf;
 use App\Entity\Url;
 use App\Form\Type\UrlFormType;
+use App\Repository\PdfRepository;
 use App\Repository\UserRepository;
 use App\Service\Gotenberg;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,6 +21,7 @@ class PdfFormController extends AbstractController
     #[Route('/pdf/form', name: 'app_pdf_form')]
     public function new(Gotenberg $gotenberg, Request $request, EntityManagerInterface $entityManager, UserRepository $ur): Response
     {
+
         $userids = $ur->findAll();
         foreach ($userids as $userid) {
             $userid->getId();
